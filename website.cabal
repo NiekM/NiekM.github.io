@@ -2,12 +2,12 @@ name:                website
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/website#readme
+homepage:            https://github.com/NiekM/NiekM.github.io#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2022 Author name here
+author:              Niek Mulleners
+maintainer:          n.mulleners@uu.nl
+copyright:           2022 Niek Mulleners
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
