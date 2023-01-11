@@ -45,6 +45,13 @@ h2 {
   font-size: 20px;
 }
 
+.tool {
+  font-variant: small-caps;
+  font-weight: bold;
+  color: #444;
+  font-size: 18px;
+}
+
 img.link {
   width: 32px;
   height: 32px;
