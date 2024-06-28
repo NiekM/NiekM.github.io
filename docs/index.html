@@ -11337,9 +11337,9 @@ var $author$project$Main$makeLink = F2(
 	function (model, link) {
 		var folder = function () {
 			if (model.$ === 'Light') {
-				return 'images/dark/';
+				return '../images/dark/';
 			} else {
-				return 'images/light/';
+				return '../images/light/';
 			}
 		}();
 		return A2(
@@ -11359,9 +11359,8 @@ var $author$project$Main$makeLink = F2(
 var $author$project$Main$gitHub = {description: 'GitHub', src: 'github.svg', url: 'https://github.com/NiekM/'};
 var $author$project$Main$linkedIn = {description: 'LinkedIn', src: 'linkedin.svg', url: 'https://www.linkedin.com/in/niek-mulleners/'};
 var $author$project$Main$orcid = {description: 'ORCID', src: 'orcid.svg', url: 'https://orcid.org/0000-0002-7934-6834'};
-var $author$project$Main$scholar = {description: 'Google Scholar', src: 'scholar.svg', url: 'https://scholar.google.nl/citations?user=zqSF4BgAAAAJ&hl=en'};
 var $author$project$Main$myLinks = _List_fromArray(
-	[$author$project$Main$linkedIn, $author$project$Main$gitHub, $author$project$Main$orcid, $author$project$Main$scholar]);
+	[$author$project$Main$linkedIn, $author$project$Main$gitHub, $author$project$Main$orcid]);
 var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
 var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
 var $mdgriffith$elm_ui$Element$row = F2(
