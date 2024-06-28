@@ -131,8 +131,8 @@ makeLink model link =
   let
     folder =
       case model of
-        Light -> "../images/dark/"
-        Dark -> "../images/light/"
+        Light -> "images/dark/"
+        Dark -> "images/light/"
   in
   Element.link []
     { url = link.url
