@@ -1,6 +1,8 @@
 module Main exposing (..)
 
-import Browser
+import Browser exposing (Document)
+import Platform.Cmd as Cmd
+import Platform.Sub as Sub
 import Html exposing (Html)
 import Element exposing (Element, Color, rgb255, px)
 import Element.Events as Events
@@ -17,11 +19,35 @@ type Msg =
 
 main : Program () Model Msg
 main =
-  Browser.sandbox { init = init, update = update, view = view }
+  Browser.document
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    }
 
-init : Model
-init =
-  Dark
+init : () -> (Model, Cmd msg)
+init _ =
+  (Dark, Cmd.none)
+
+view : Model -> Document Msg
+view model =
+  { title = myName
+  , body = [body model]
+  }
+
+update : Msg -> Model -> (Model, Cmd Msg)
+update _ model =
+  case model of
+    Light -> (Dark, Cmd.none)
+    Dark -> (Light, Cmd.none)
+
+subscriptions : model -> Sub msg
+subscriptions _ =
+  Sub.none
+
+myName : String
+myName = "Niek Mulleners"
 
 type alias Colors =
   { background : Color
@@ -57,13 +83,13 @@ colorScheme model =
 
     Dark -> dark
 
-view : Model -> Html Msg
-view model =
+body : Model -> Html Msg
+body model =
   let
     colors = colorScheme model
     header = Element.el
       [ Font.size 36, Font.bold ]
-      (Element.text "Niek Mulleners")
+      (Element.text myName)
   in
     Element.layout
       [ Background.color colors.background
@@ -179,27 +205,6 @@ myLinks =
   -- , scholar
   ]
 
-update : Msg -> Model -> Model
-update _ model =
-  case model of
-    Light -> Dark
-    Dark -> Light
-  
-
-
--- main : Html msg
--- main = Element.layout
---   [ Background.color (rgb255 31 31 31)
---   , Font.color (rgb255 204 204 204)
---   ]
---   ( Element.column
---     [ Element.centerX
---     , Element.centerY
---     , Element.spacing 20
---     ]
---     (List.map showArticle myArticles)
---   )
-
 type alias Article =
   { title : String
   , description : String
@@ -231,8 +236,6 @@ showArticle colors { title, description, url } =
       , Element.el [ Font.italic ] (Element.text description)
       ]
     }
-    
-
 
 hatra_2020 : Article
 hatra_2020 =
@@ -246,10 +249,6 @@ padl_2023 =
   { title = "Program Synthesis Using Example Propagation"
   , description = "Practical Aspects of Declarative Languages (PADL) 2023"
   , url = "https://rdcu.be/c26m0"
-  -- , authors = myAuthors
-  -- , venue = "PADL"
-  -- , doi = "10.1007/978-3-031-24841-2_2"
-  -- , year = 2023
   }
 
 icfp_2024 : Article
@@ -257,11 +256,6 @@ icfp_2024 =
   { title = "Example-Based Reasoning about the Realizability of Polymorphic Programs"
   , description = "International Conference on Functional Programming (ICFP) 2024"
   , url = "https://arxiv.org/pdf/2406.18304"
-  -- , authors = myAuthors
-  -- , venue = "ICFP"
-  -- , doi = "10.48550/arXiv.2406.18304"
-  -- -- , doi = "10.1145/3674636"
-  -- , year = 2024
   }
 
 myArticles : List Article
