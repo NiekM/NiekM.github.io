@@ -1,14 +1,11 @@
 module Main exposing (..)
 
 import Browser exposing (Document)
-import Platform.Cmd as Cmd
-import Platform.Sub as Sub
 import Html exposing (Html)
 import Element exposing (Element, Color, rgb255, px)
 import Element.Events as Events
 import Element.Background as Background
 import Element.Font as Font
-import Element.Region exposing (description)
 
 type Model
   = Light
@@ -48,40 +45,6 @@ subscriptions _ =
 
 myName : String
 myName = "Niek Mulleners"
-
-type alias Colors =
-  { background : Color
-  , button : Color
-  , highlighted : Color
-  , text : Color
-  }
-
-gray255 : Int -> Color
-gray255 g = rgb255 g g g
-
-light : Colors
-light =
-  { background = gray255 255
-  , button = gray255 243
-  , highlighted = gray255 224
-  , text = gray255 31
-  }
-
-dark : Colors
-dark =
-  { background = gray255 31
-  , button = gray255 43
-  , highlighted = gray255 62
-  , text = gray255 204
-  }
-
-colorScheme : Model -> Colors
-colorScheme model =
-  case model of
-
-    Light -> light
-
-    Dark -> dark
 
 body : Model -> Html Msg
 body model =
@@ -123,6 +86,9 @@ switch model =
       [ Font.size 36
       , Font.bold
       , Events.onClick Switch
+      , Element.centerX
+      , Element.centerY
+      , Element.mouseOver [ Element.scale 1.2 ]
       ]
       symbol
 
@@ -135,7 +101,44 @@ research colors =
     articles = List.map (showArticle colors) myArticles
   in
     Element.column [ Element.spacing 16 ] (header :: articles)
-    
+
+-- * Colors
+
+type alias Colors =
+  { background : Color
+  , button : Color
+  , highlighted : Color
+  , text : Color
+  }
+
+gray255 : Int -> Color
+gray255 g = rgb255 g g g
+
+light : Colors
+light =
+  { background = gray255 255
+  , button = gray255 243
+  , highlighted = gray255 224
+  , text = gray255 31
+  }
+
+dark : Colors
+dark =
+  { background = gray255 31
+  , button = gray255 43
+  , highlighted = gray255 62
+  , text = gray255 204
+  }
+
+colorScheme : Model -> Colors
+colorScheme model =
+  case model of
+
+    Light -> light
+
+    Dark -> dark
+
+-- * Links
 
 links : Model -> Element msg
 links model =
@@ -205,36 +208,46 @@ myLinks =
   -- , scholar
   ]
 
+-- * Articles
+
 type alias Article =
   { title : String
   , description : String
   , url : String
+  , star : Bool
   }
 
 showArticle : Colors -> Article -> Element msg
-showArticle colors { title, description, url } =
+showArticle colors { title, description, url, star } =
   Element.link
     [ Background.color colors.button
-    , Element.width (px 800)
+    , Element.width (px 840)
     , Element.mouseOver
       [ Element.scale 1.03
       , Background.color colors.highlighted
       ]
     ]
     { url = url
-    , label =  Element.column
-      [ Element.spacing 8
-      , Font.size 16
-      , Element.padding 10
-      ]
-      [ Element.el
-        [ Font.bold
-        , Font.size 20
-        , Element.spacing 8
+    , label =
+      Element.row
+        [ Element.spacing 24 ]
+        [ Element.column
+          [ Element.spacing 8
+          , Font.size 16
+          , Element.padding 10
+          ]
+          [ Element.el
+            [ Font.bold
+            , Font.size 20
+            , Element.spacing 8
+            ]
+            (Element.text title)
+          , Element.el [ Font.italic ] (Element.text description)
+          ]
+        , if star
+          then Element.el [ Font.size 32, Element.centerY ] (Element.text "★")
+          else Element.none
         ]
-        (Element.text title)
-      , Element.el [ Font.italic ] (Element.text description)
-      ]
     }
 
 hatra_2020 : Article
@@ -242,6 +255,7 @@ hatra_2020 =
   { title = "Model-Driven Synthesis for Program Tutors"
   , description = "Human Aspects of Types and Reasoning Assistants (HATRA) 2020"
   , url = "https://arxiv.org/pdf/2011.07510"
+  , star = False
   }
 
 padl_2023 : Article
@@ -249,13 +263,15 @@ padl_2023 =
   { title = "Program Synthesis Using Example Propagation"
   , description = "Practical Aspects of Declarative Languages (PADL) 2023"
   , url = "https://rdcu.be/c26m0"
+  , star = False
   }
 
 icfp_2024 : Article
 icfp_2024 =
   { title = "Example-Based Reasoning about the Realizability of Polymorphic Programs"
-  , description = "International Conference on Functional Programming (ICFP) 2024"
-  , url = "https://arxiv.org/pdf/2406.18304"
+  , description = "International Conference on Functional Programming (ICFP) 2024, Distinguished Paper"
+  , url = "https://dl.acm.org/doi/pdf/10.1145/3674636"
+  , star = True
   }
 
 myArticles : List Article
