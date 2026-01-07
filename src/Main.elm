@@ -278,7 +278,7 @@ pepm_2026 : Article
 pepm_2026 =
   { title = "Hole Refinements for Polymorphic Type-and-Example Driven Synthesis"
   , description = "International Workshop on Partial Evaluation and Program Manipulation (PEPM) 2026"
-  , url = "../docs/papers/pepm26.pdf"
+  , url = "papers/pepm26.pdf"
   , star = False
   }
 
