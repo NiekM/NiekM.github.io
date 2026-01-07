@@ -254,7 +254,7 @@ hatra_2020 : Article
 hatra_2020 =
   { title = "Model-Driven Synthesis for Program Tutors"
   , description = "Human Aspects of Types and Reasoning Assistants (HATRA) 2020"
-  , url = "https://arxiv.org/pdf/2011.07510"
+  , url = "papers/hatra20.pdf"
   , star = False
   }
 
@@ -262,7 +262,7 @@ padl_2023 : Article
 padl_2023 =
   { title = "Program Synthesis Using Example Propagation"
   , description = "Practical Aspects of Declarative Languages (PADL) 2023"
-  , url = "https://rdcu.be/c26m0"
+  , url = "papers/padl23.pdf"
   , star = False
   }
 
@@ -270,7 +270,7 @@ icfp_2024 : Article
 icfp_2024 =
   { title = "Example-Based Reasoning about the Realizability of Polymorphic Programs"
   , description = "International Conference on Functional Programming (ICFP) 2024, Distinguished Paper"
-  , url = "https://dl.acm.org/doi/pdf/10.1145/3674636"
+  , url = "papers/icfp24.pdf"
   , star = True
   }
 
