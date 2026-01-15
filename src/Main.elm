@@ -250,6 +250,14 @@ showArticle colors { title, description, url, star } =
         ]
     }
 
+master_thesis : Article
+master_thesis =
+  { title = "Modular Semantics for Algebraic Effects"
+  , description = "Master Thesis"
+  , url = "papers/master_thesis.pdf"
+  , star = False
+  }
+
 hatra_2020 : Article
 hatra_2020 =
   { title = "Model-Driven Synthesis for Program Tutors"
@@ -288,4 +296,5 @@ myArticles =
   , icfp_2024
   , padl_2023
   , hatra_2020
+  , master_thesis
   ]
