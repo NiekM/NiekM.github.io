@@ -6,6 +6,7 @@ import Element exposing (Element, Color, rgb255, px)
 import Element.Events as Events
 import Element.Background as Background
 import Element.Font as Font
+import Element.Input as Input
 
 type Model
   = Light
@@ -82,15 +83,16 @@ switch model =
         Light -> Element.text "🌗︎"
         Dark -> Element.text "🌓︎"
   in
-    Element.el
+    Input.button
       [ Font.size 36
       , Font.bold
-      , Events.onClick Switch
       , Element.centerX
       , Element.centerY
       , Element.mouseOver [ Element.scale 1.2 ]
       ]
-      symbol
+      { onPress = Just Switch
+      , label = symbol
+      }
 
 research : Colors -> Element msg
 research colors =
