@@ -1,32 +1,56 @@
 module Main exposing (..)
 
-import Browser exposing (Document)
+import Browser exposing (Document, UrlRequest(..))
+import Browser.Navigation as Navigation
+import Maybe exposing (withDefault)
 import Html exposing (Html)
 import Element exposing (Element, Color, rgb255, px)
 import Element.Events as Events
 import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
+import Url exposing (Url)
+import Url.Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 
-type Model
+type Theme
   = Light
   | Dark
 
-type Msg =
-  Switch
+type Page
+  = Publications
+  | Dissertation
+
+parsePage : Parser (Page -> a) a
+parsePage = oneOf
+  [ map Publications (s "publications")
+  , map Dissertation (s "dissertation")
+  ]
+
+type alias Model =
+  { theme : Theme
+  , key : Navigation.Key
+  , page : Page
+  }
+
+type Msg
+  = Switch
+  | LinkClicked UrlRequest
+  | UrlChanged Url
 
 main : Program () Model Msg
 main =
-  Browser.document
+  Browser.application
     { init = init
     , view = view
     , update = update
     , subscriptions = subscriptions
+    , onUrlChange = onUrlChange
+    , onUrlRequest = onUrlRequest
     }
 
-init : () -> (Model, Cmd msg)
-init _ =
-  (Dark, Cmd.none)
+init : flags -> Url -> Navigation.Key -> (Model, Cmd msg)
+init _ _ key =
+  ({ theme = Dark, key = key, page = Publications }, Cmd.none)
 
 view : Model -> Document Msg
 view model =
@@ -35,14 +59,35 @@ view model =
   }
 
 update : Msg -> Model -> (Model, Cmd Msg)
-update _ model =
-  case model of
-    Light -> (Dark, Cmd.none)
-    Dark -> (Light, Cmd.none)
+update msg model =
+  case msg of
+    Switch -> case model.theme of
+      Light -> ({ model | theme = Dark }, Cmd.none)
+      Dark -> ({ model | theme = Light }, Cmd.none)
+    LinkClicked urlRequest ->
+      case urlRequest of
+        Internal url ->
+          ( model
+          , Navigation.pushUrl model.key (Url.toString url)
+          )
+        External url ->
+          ( model
+          , Navigation.load url
+          )
+    UrlChanged url ->
+      ( { model | page = withDefault Publications (Url.Parser.parse parsePage url) }
+      , Cmd.none
+      )
 
 subscriptions : model -> Sub msg
 subscriptions _ =
   Sub.none
+
+onUrlChange : Url -> Msg
+onUrlChange = UrlChanged
+
+onUrlRequest : Browser.UrlRequest -> Msg
+onUrlRequest = LinkClicked
 
 myName : String
 myName = "Niek Mulleners"
@@ -50,7 +95,7 @@ myName = "Niek Mulleners"
 body : Model -> Html Msg
 body model =
   let
-    colors = colorScheme model
+    colors = colorScheme model.theme
     header = Element.el
       [ Font.size 36, Font.bold ]
       (Element.text myName)
@@ -69,17 +114,19 @@ body model =
           , Element.spacing 220
           , Element.moveRight 128
           ]
-          [ header, switch model ]
-        , research colors
-        , links model
+          [ header, switch model.theme ]
+        , case model.page of
+          Publications -> research colors
+          Dissertation -> Element.none
+        , links model.theme
         ]
       )
 
-switch : Model -> Element Msg
-switch model =
+switch : Theme -> Element Msg
+switch theme =
   let
     symbol =
-      case model of
+      case theme of
         Light -> Element.text "🌗︎"
         Dark -> Element.text "🌓︎"
   in
@@ -132,24 +179,22 @@ dark =
   , text = gray255 204
   }
 
-colorScheme : Model -> Colors
-colorScheme model =
-  case model of
-
+colorScheme : Theme -> Colors
+colorScheme theme =
+  case theme of
     Light -> light
-
     Dark -> dark
 
 -- * Links
 
-links : Model -> Element msg
-links model =
+links : Theme -> Element msg
+links theme =
   Element.row
     [ Element.centerX
     , Element.spacing 16
     , Element.scale 0.5
     ]
-    (List.map (makeLink model) myLinks)
+    (List.map (makeLink theme) myLinks)
 
 type alias Link =
   { url : String
@@ -157,11 +202,11 @@ type alias Link =
   , src : String
   }
 
-makeLink : Model -> Link -> Element msg
-makeLink model link =
+makeLink : Theme -> Link -> Element msg
+makeLink theme link =
   let
     folder =
-      case model of
+      case theme of
         Light -> "images/dark/"
         Dark -> "images/light/"
   in
