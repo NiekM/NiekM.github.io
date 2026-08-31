@@ -10,26 +10,29 @@ import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
 import Url exposing (Url)
-import Url.Parser exposing (Parser, (</>), int, map, oneOf, s, string)
+import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 
 type Theme
   = Light
   | Dark
 
-type Page
+type Route
   = Publications
   | Dissertation
 
-parsePage : Parser (Page -> a) a
-parsePage = oneOf
+routeParser : Parser (Route -> a) a
+routeParser = oneOf
   [ map Publications (s "publications")
   , map Dissertation (s "dissertation")
   ]
 
+parseRoute : Url -> Route
+parseRoute url = withDefault Publications (Parser.parse routeParser url)
+
 type alias Model =
   { theme : Theme
   , key : Navigation.Key
-  , page : Page
+  , route : Route
   }
 
 type Msg
@@ -49,8 +52,8 @@ main =
     }
 
 init : flags -> Url -> Navigation.Key -> (Model, Cmd msg)
-init _ _ key =
-  ({ theme = Dark, key = key, page = Publications }, Cmd.none)
+init _ url key =
+  ({ theme = Dark, key = key, route = parseRoute url }, Cmd.none)
 
 view : Model -> Document Msg
 view model =
@@ -75,7 +78,7 @@ update msg model =
           , Navigation.load url
           )
     UrlChanged url ->
-      ( { model | page = withDefault Publications (Url.Parser.parse parsePage url) }
+      ( { model | route = parseRoute url } 
       , Cmd.none
       )
 
@@ -115,7 +118,7 @@ body model =
           , Element.moveRight 128
           ]
           [ header, switch model.theme ]
-        , case model.page of
+        , case model.route of
           Publications -> research colors
           Dissertation -> Element.none
         , links model.theme
