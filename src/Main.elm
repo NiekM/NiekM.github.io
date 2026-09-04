@@ -59,7 +59,6 @@ view model =
         About -> Pages.About.view colors
         Projects -> Pages.Projects.view colors
         Dissertation -> Pages.Dissertation.view colors
-        Paper paper -> Element.none
   in
     { title = myName
     , body =
@@ -121,9 +120,14 @@ update msg model =
     LinkClicked urlRequest ->
       case urlRequest of
         Internal url ->
-          ( model
-          , Navigation.pushUrl model.key (Url.toString url)
-          )
+          if String.endsWith ".pdf" (Url.toString url) then
+            ( model
+            , Navigation.load (Url.toString url)
+            )
+          else
+            ( model
+            , Navigation.pushUrl model.key (Url.toString url)
+            )
         External url ->
           ( model
           , Navigation.load url

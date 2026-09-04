@@ -45,9 +45,9 @@ navBar current =
     , Element.padding 20
     , Element.centerX
     ]
-    [ navLink current Home "Home"
+    -- [ navLink current Home "Home"
     -- , navLink current About "About"
-    , navLink current Projects "Projects"
+    [ navLink current Projects "Projects"
     , navLink current Dissertation "Dissertation"
     ]
 

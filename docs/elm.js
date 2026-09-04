@@ -5216,7 +5216,7 @@ var $elm$browser$Browser$application = _Browser_application;
 var $author$project$Theme$Dark = {$: 'Dark'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Route$Dissertation = {$: 'Dissertation'};
+var $author$project$Route$Projects = {$: 'Projects'};
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
@@ -5852,11 +5852,8 @@ var $elm$url$Url$Parser$parse = F2(
 					$elm$core$Basics$identity)));
 	});
 var $author$project$Route$About = {$: 'About'};
+var $author$project$Route$Dissertation = {$: 'Dissertation'};
 var $author$project$Route$Home = {$: 'Home'};
-var $author$project$Route$Paper = function (a) {
-	return {$: 'Paper', a: a};
-};
-var $author$project$Route$Projects = {$: 'Projects'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
@@ -5946,52 +5943,6 @@ var $elm$url$Url$Parser$s = function (str) {
 			}
 		});
 };
-var $elm$url$Url$Parser$slash = F2(
-	function (_v0, _v1) {
-		var parseBefore = _v0.a;
-		var parseAfter = _v1.a;
-		return $elm$url$Url$Parser$Parser(
-			function (state) {
-				return A2(
-					$elm$core$List$concatMap,
-					parseAfter,
-					parseBefore(state));
-			});
-	});
-var $elm$url$Url$Parser$custom = F2(
-	function (tipe, stringToSomething) {
-		return $elm$url$Url$Parser$Parser(
-			function (_v0) {
-				var visited = _v0.visited;
-				var unvisited = _v0.unvisited;
-				var params = _v0.params;
-				var frag = _v0.frag;
-				var value = _v0.value;
-				if (!unvisited.b) {
-					return _List_Nil;
-				} else {
-					var next = unvisited.a;
-					var rest = unvisited.b;
-					var _v2 = stringToSomething(next);
-					if (_v2.$ === 'Just') {
-						var nextValue = _v2.a;
-						return _List_fromArray(
-							[
-								A5(
-								$elm$url$Url$Parser$State,
-								A2($elm$core$List$cons, next, visited),
-								rest,
-								params,
-								frag,
-								value(nextValue))
-							]);
-					} else {
-						return _List_Nil;
-					}
-				}
-			});
-	});
-var $elm$url$Url$Parser$string = A2($elm$url$Url$Parser$custom, 'STRING', $elm$core$Maybe$Just);
 var $author$project$Route$routeParser = $elm$url$Url$Parser$oneOf(
 	_List_fromArray(
 		[
@@ -6010,14 +5961,7 @@ var $author$project$Route$routeParser = $elm$url$Url$Parser$oneOf(
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Dissertation,
-			$elm$url$Url$Parser$s('dissertation')),
-			A2(
-			$elm$url$Url$Parser$map,
-			$author$project$Route$Paper,
-			A2(
-				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('paper'),
-				$elm$url$Url$Parser$string))
+			$elm$url$Url$Parser$s('dissertation'))
 		]));
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
@@ -6031,7 +5975,7 @@ var $elm$core$Maybe$withDefault = F2(
 var $author$project$Route$parseRoute = function (url) {
 	return A2(
 		$elm$core$Maybe$withDefault,
-		$author$project$Route$Dissertation,
+		$author$project$Route$Projects,
 		A2($elm$url$Url$Parser$parse, $author$project$Route$routeParser, url));
 };
 var $author$project$Main$init = F3(
@@ -12344,11 +12288,8 @@ var $author$project$Route$routeToPath = function (route) {
 			return '/about';
 		case 'Projects':
 			return '/projects';
-		case 'Dissertation':
-			return '/dissertation';
 		default:
-			var paper = route.a;
-			return '/paper/' + (paper + '.pdf');
+			return '/dissertation';
 	}
 };
 var $mdgriffith$elm_ui$Element$Font$size = function (i) {
@@ -12409,12 +12350,10 @@ var $author$project$View$navBar = function (current) {
 			]),
 		_List_fromArray(
 			[
-				A3($author$project$View$navLink, current, $author$project$Route$Home, 'Home'),
 				A3($author$project$View$navLink, current, $author$project$Route$Projects, 'Projects'),
 				A3($author$project$View$navLink, current, $author$project$Route$Dissertation, 'Dissertation')
 			]));
 };
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Element$paddingXY = F2(
 	function (x, y) {
 		if (_Utils_eq(x, y)) {
@@ -12655,35 +12594,15 @@ var $author$project$Pages$About$view = function (colors) {
 };
 var $author$project$Pages$Dissertation$view = function (colors) {
 	return A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$spacing(24),
-				$mdgriffith$elm_ui$Element$centerX,
-				A2($mdgriffith$elm_ui$Element$paddingXY, 0, 40)
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$mdgriffith$elm_ui$Element$el,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$Font$size(36),
-						$mdgriffith$elm_ui$Element$Font$bold,
-						$mdgriffith$elm_ui$Element$centerX
-					]),
-				$mdgriffith$elm_ui$Element$text('Dissertation')),
-				A2(
-				$mdgriffith$elm_ui$Element$el,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$Font$size(20),
-						$mdgriffith$elm_ui$Element$centerX,
-						$mdgriffith$elm_ui$Element$width(
-						$mdgriffith$elm_ui$Element$px(600))
-					]),
-				$mdgriffith$elm_ui$Element$text('Some text here.'))
-			]));
+		$mdgriffith$elm_ui$Element$link,
+		_List_Nil,
+		{
+			label: A2(
+				$mdgriffith$elm_ui$Element$image,
+				_List_Nil,
+				{description: 'Thesis cover', src: 'images/front.svg'}),
+			url: 'papers/dissertation.pdf'
+		});
 };
 var $author$project$Pages$Home$view = function (colors) {
 	return A2(
@@ -12727,6 +12646,7 @@ var $author$project$Pages$Projects$myArticles = _List_fromArray(
 var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
 var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
 var $mdgriffith$elm_ui$Element$Font$italic = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.italic);
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $author$project$Pages$Projects$showArticle = F2(
 	function (colors, _v0) {
 		var title = _v0.title;
@@ -12847,11 +12767,8 @@ var $author$project$Main$view = function (model) {
 				return $author$project$Pages$About$view(colors);
 			case 'Projects':
 				return $author$project$Pages$Projects$view(colors);
-			case 'Dissertation':
-				return $author$project$Pages$Dissertation$view(colors);
 			default:
-				var paper = _v0.a;
-				return $mdgriffith$elm_ui$Element$none;
+				return $author$project$Pages$Dissertation$view(colors);
 		}
 	}();
 	return {
