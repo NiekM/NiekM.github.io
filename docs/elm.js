@@ -5216,7 +5216,7 @@ var $elm$browser$Browser$application = _Browser_application;
 var $author$project$Theme$Dark = {$: 'Dark'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Route$Home = {$: 'Home'};
+var $author$project$Route$Dissertation = {$: 'Dissertation'};
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
@@ -5852,7 +5852,10 @@ var $elm$url$Url$Parser$parse = F2(
 					$elm$core$Basics$identity)));
 	});
 var $author$project$Route$About = {$: 'About'};
-var $author$project$Route$Dissertation = {$: 'Dissertation'};
+var $author$project$Route$Home = {$: 'Home'};
+var $author$project$Route$Paper = function (a) {
+	return {$: 'Paper', a: a};
+};
 var $author$project$Route$Projects = {$: 'Projects'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
@@ -5943,6 +5946,52 @@ var $elm$url$Url$Parser$s = function (str) {
 			}
 		});
 };
+var $elm$url$Url$Parser$slash = F2(
+	function (_v0, _v1) {
+		var parseBefore = _v0.a;
+		var parseAfter = _v1.a;
+		return $elm$url$Url$Parser$Parser(
+			function (state) {
+				return A2(
+					$elm$core$List$concatMap,
+					parseAfter,
+					parseBefore(state));
+			});
+	});
+var $elm$url$Url$Parser$custom = F2(
+	function (tipe, stringToSomething) {
+		return $elm$url$Url$Parser$Parser(
+			function (_v0) {
+				var visited = _v0.visited;
+				var unvisited = _v0.unvisited;
+				var params = _v0.params;
+				var frag = _v0.frag;
+				var value = _v0.value;
+				if (!unvisited.b) {
+					return _List_Nil;
+				} else {
+					var next = unvisited.a;
+					var rest = unvisited.b;
+					var _v2 = stringToSomething(next);
+					if (_v2.$ === 'Just') {
+						var nextValue = _v2.a;
+						return _List_fromArray(
+							[
+								A5(
+								$elm$url$Url$Parser$State,
+								A2($elm$core$List$cons, next, visited),
+								rest,
+								params,
+								frag,
+								value(nextValue))
+							]);
+					} else {
+						return _List_Nil;
+					}
+				}
+			});
+	});
+var $elm$url$Url$Parser$string = A2($elm$url$Url$Parser$custom, 'STRING', $elm$core$Maybe$Just);
 var $author$project$Route$routeParser = $elm$url$Url$Parser$oneOf(
 	_List_fromArray(
 		[
@@ -5961,7 +6010,14 @@ var $author$project$Route$routeParser = $elm$url$Url$Parser$oneOf(
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Dissertation,
-			$elm$url$Url$Parser$s('dissertation'))
+			$elm$url$Url$Parser$s('dissertation')),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Route$Paper,
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('paper'),
+				$elm$url$Url$Parser$string))
 		]));
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
@@ -5975,7 +6031,7 @@ var $elm$core$Maybe$withDefault = F2(
 var $author$project$Route$parseRoute = function (url) {
 	return A2(
 		$elm$core$Maybe$withDefault,
-		$author$project$Route$Home,
+		$author$project$Route$Dissertation,
 		A2($elm$url$Url$Parser$parse, $author$project$Route$routeParser, url));
 };
 var $author$project$Main$init = F3(
@@ -6002,6 +6058,7 @@ var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
 var $author$project$Theme$Light = {$: 'Light'};
+var $elm$core$String$endsWith = _String_endsWith;
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $elm$url$Url$addPort = F2(
@@ -6070,7 +6127,13 @@ var $author$project$Main$update = F2(
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
 					var url = urlRequest.a;
-					return _Utils_Tuple2(
+					return A2(
+						$elm$core$String$endsWith,
+						'.pdf',
+						$elm$url$Url$toString(url)) ? _Utils_Tuple2(
+						model,
+						$elm$browser$Browser$Navigation$load(
+							$elm$url$Url$toString(url))) : _Utils_Tuple2(
 						model,
 						A2(
 							$elm$browser$Browser$Navigation$pushUrl,
@@ -11784,7 +11847,7 @@ var $author$project$Icons$makeIcon = F2(
 			});
 	});
 var $author$project$Icons$gitHub = {description: 'GitHub', src: 'github.svg', url: 'https://github.com/NiekM/'};
-var $author$project$Icons$linkedIn = {description: 'IconedIn', src: 'linkedin.svg', url: 'https://www.linkedin.com/in/niek-mulleners/'};
+var $author$project$Icons$linkedIn = {description: 'LinkedIn', src: 'linkedin.svg', url: 'https://www.linkedin.com/in/niek-mulleners/'};
 var $author$project$Icons$orcid = {description: 'ORCID', src: 'orcid.svg', url: 'https://orcid.org/0000-0002-7934-6834'};
 var $author$project$Icons$myIcons = _List_fromArray(
 	[$author$project$Icons$linkedIn, $author$project$Icons$gitHub, $author$project$Icons$orcid]);
@@ -12281,8 +12344,11 @@ var $author$project$Route$routeToPath = function (route) {
 			return '/about';
 		case 'Projects':
 			return '/projects';
-		default:
+		case 'Dissertation':
 			return '/dissertation';
+		default:
+			var paper = route.a;
+			return '/paper/' + (paper + '.pdf');
 	}
 };
 var $mdgriffith$elm_ui$Element$Font$size = function (i) {
@@ -12348,6 +12414,7 @@ var $author$project$View$navBar = function (current) {
 				A3($author$project$View$navLink, current, $author$project$Route$Dissertation, 'Dissertation')
 			]));
 };
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Element$paddingXY = F2(
 	function (x, y) {
 		if (_Utils_eq(x, y)) {
@@ -12660,7 +12727,6 @@ var $author$project$Pages$Projects$myArticles = _List_fromArray(
 var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
 var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
 var $mdgriffith$elm_ui$Element$Font$italic = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.italic);
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $author$project$Pages$Projects$showArticle = F2(
 	function (colors, _v0) {
 		var title = _v0.title;
@@ -12781,8 +12847,11 @@ var $author$project$Main$view = function (model) {
 				return $author$project$Pages$About$view(colors);
 			case 'Projects':
 				return $author$project$Pages$Projects$view(colors);
-			default:
+			case 'Dissertation':
 				return $author$project$Pages$Dissertation$view(colors);
+			default:
+				var paper = _v0.a;
+				return $mdgriffith$elm_ui$Element$none;
 		}
 	}();
 	return {

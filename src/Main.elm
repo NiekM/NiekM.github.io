@@ -59,6 +59,7 @@ view model =
         About -> Pages.About.view colors
         Projects -> Pages.Projects.view colors
         Dissertation -> Pages.Dissertation.view colors
+        Paper paper -> Element.none
   in
     { title = myName
     , body =

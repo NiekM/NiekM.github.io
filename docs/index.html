@@ -16,9 +16,11 @@
     }
   </script>
   <script>
-    Elm.Main.init({
-      node: document.getElementById("elm")
-    });
+    if (!location.pathname.toLowerCase().endsWith(".pdf")) {
+      Elm.Main.init({
+        node: document.getElementById("elm")
+      });
+    }
   </script>
 </body>
 </html>
