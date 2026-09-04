@@ -1,17 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Main</title>
-  <style>body { padding: 0; margin: 0; }</style>
-</head>
-
-<body>
-
-<pre id="elm"></pre>
-
-<script>
-try {
 (function(scope){
 'use strict';
 
@@ -5227,10 +5213,10 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$application = _Browser_application;
-var $author$project$Main$Dark = {$: 'Dark'};
+var $author$project$Theme$Dark = {$: 'Dark'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Main$Publications = {$: 'Publications'};
+var $author$project$Route$Home = {$: 'Home'};
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
@@ -5865,7 +5851,9 @@ var $elm$url$Url$Parser$parse = F2(
 					url.fragment,
 					$elm$core$Basics$identity)));
 	});
-var $author$project$Main$Dissertation = {$: 'Dissertation'};
+var $author$project$Route$About = {$: 'About'};
+var $author$project$Route$Dissertation = {$: 'Dissertation'};
+var $author$project$Route$Projects = {$: 'Projects'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
@@ -5955,16 +5943,24 @@ var $elm$url$Url$Parser$s = function (str) {
 			}
 		});
 };
-var $author$project$Main$routeParser = $elm$url$Url$Parser$oneOf(
+var $author$project$Route$routeParser = $elm$url$Url$Parser$oneOf(
 	_List_fromArray(
 		[
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Main$Publications,
-			$elm$url$Url$Parser$s('publications')),
+			$author$project$Route$Home,
+			$elm$url$Url$Parser$s('home')),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Main$Dissertation,
+			$author$project$Route$About,
+			$elm$url$Url$Parser$s('about')),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Route$Projects,
+			$elm$url$Url$Parser$s('projects')),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Route$Dissertation,
 			$elm$url$Url$Parser$s('dissertation'))
 		]));
 var $elm$core$Maybe$withDefault = F2(
@@ -5976,19 +5972,19 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Main$parseRoute = function (url) {
+var $author$project$Route$parseRoute = function (url) {
 	return A2(
 		$elm$core$Maybe$withDefault,
-		$author$project$Main$Publications,
-		A2($elm$url$Url$Parser$parse, $author$project$Main$routeParser, url));
+		$author$project$Route$Home,
+		A2($elm$url$Url$Parser$parse, $author$project$Route$routeParser, url));
 };
 var $author$project$Main$init = F3(
 	function (_v0, url, key) {
 		return _Utils_Tuple2(
 			{
 				key: key,
-				route: $author$project$Main$parseRoute(url),
-				theme: $author$project$Main$Dark
+				route: $author$project$Route$parseRoute(url),
+				theme: $author$project$Theme$Dark
 			},
 			$elm$core$Platform$Cmd$none);
 	});
@@ -6005,7 +6001,7 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
-var $author$project$Main$Light = {$: 'Light'};
+var $author$project$Theme$Light = {$: 'Light'};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $elm$url$Url$addPort = F2(
@@ -6055,19 +6051,19 @@ var $elm$url$Url$toString = function (url) {
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
-			case 'Switch':
+			case 'SwitchTheme':
 				var _v1 = model.theme;
 				if (_v1.$ === 'Light') {
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{theme: $author$project$Main$Dark}),
+							{theme: $author$project$Theme$Dark}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{theme: $author$project$Main$Light}),
+							{theme: $author$project$Theme$Light}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 'LinkClicked':
@@ -6092,7 +6088,7 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							route: $author$project$Main$parseRoute(url)
+							route: $author$project$Route$parseRoute(url)
 						}),
 					$elm$core$Platform$Cmd$none);
 		}
@@ -6119,11 +6115,6 @@ var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
 };
 var $mdgriffith$elm_ui$Internal$Model$CenterX = {$: 'CenterX'};
 var $mdgriffith$elm_ui$Element$centerX = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$CenterX);
-var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
-	return {$: 'AlignY', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
-var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
 var $mdgriffith$elm_ui$Internal$Model$Colored = F3(
 	function (a, b, c) {
 		return {$: 'Colored', a: a, b: b, c: c};
@@ -6174,26 +6165,26 @@ var $mdgriffith$elm_ui$Element$rgb255 = F3(
 	function (red, green, blue) {
 		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
 	});
-var $author$project$Main$gray255 = function (g) {
+var $author$project$View$gray255 = function (g) {
 	return A3($mdgriffith$elm_ui$Element$rgb255, g, g, g);
 };
-var $author$project$Main$dark = {
-	background: $author$project$Main$gray255(31),
-	button: $author$project$Main$gray255(43),
-	highlighted: $author$project$Main$gray255(62),
-	text: $author$project$Main$gray255(204)
+var $author$project$View$darkColors = {
+	background: $author$project$View$gray255(31),
+	button: $author$project$View$gray255(43),
+	highlighted: $author$project$View$gray255(62),
+	text: $author$project$View$gray255(204)
 };
-var $author$project$Main$light = {
-	background: $author$project$Main$gray255(255),
-	button: $author$project$Main$gray255(243),
-	highlighted: $author$project$Main$gray255(224),
-	text: $author$project$Main$gray255(31)
+var $author$project$View$lightColors = {
+	background: $author$project$View$gray255(255),
+	button: $author$project$View$gray255(243),
+	highlighted: $author$project$View$gray255(224),
+	text: $author$project$View$gray255(31)
 };
-var $author$project$Main$colorScheme = function (theme) {
+var $author$project$View$colorScheme = function (theme) {
 	if (theme.$ === 'Light') {
-		return $author$project$Main$light;
+		return $author$project$View$lightColors;
 	} else {
-		return $author$project$Main$dark;
+		return $author$project$View$darkColors;
 	}
 };
 var $mdgriffith$elm_ui$Internal$Model$Unkeyed = function (a) {
@@ -11677,6 +11668,194 @@ var $mdgriffith$elm_ui$Element$el = F2(
 				_List_fromArray(
 					[child])));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
+var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $mdgriffith$elm_ui$Element$image = F2(
+	function (attrs, _v0) {
+		var src = _v0.src;
+		var description = _v0.description;
+		var imageAttributes = A2(
+			$elm$core$List$filter,
+			function (a) {
+				switch (a.$) {
+					case 'Width':
+						return true;
+					case 'Height':
+						return true;
+					default:
+						return false;
+				}
+			},
+			attrs);
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
+				attrs),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[
+						A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asEl,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('img'),
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$src(src)),
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$alt(description))
+								]),
+							imageAttributes),
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
+					])));
+	});
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
+var $mdgriffith$elm_ui$Element$link = F2(
+	function (attrs, _v0) {
+		var url = _v0.url;
+		var label = _v0.label;
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$Attr(
+					$elm$html$Html$Attributes$href(url)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Internal$Model$Attr(
+						$elm$html$Html$Attributes$rel('noopener noreferrer')),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+						A2(
+							$elm$core$List$cons,
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+							A2(
+								$elm$core$List$cons,
+								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
+								attrs))))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[label])));
+	});
+var $author$project$Icons$makeIcon = F2(
+	function (theme, icon) {
+		var folder = function () {
+			if (theme.$ === 'Light') {
+				return 'images/dark/';
+			} else {
+				return 'images/light/';
+			}
+		}();
+		return A2(
+			$mdgriffith$elm_ui$Element$link,
+			_List_Nil,
+			{
+				label: A2(
+					$mdgriffith$elm_ui$Element$image,
+					_List_Nil,
+					{
+						description: icon.description,
+						src: _Utils_ap(folder, icon.src)
+					}),
+				url: icon.url
+			});
+	});
+var $author$project$Icons$gitHub = {description: 'GitHub', src: 'github.svg', url: 'https://github.com/NiekM/'};
+var $author$project$Icons$linkedIn = {description: 'IconedIn', src: 'linkedin.svg', url: 'https://www.linkedin.com/in/niek-mulleners/'};
+var $author$project$Icons$orcid = {description: 'ORCID', src: 'orcid.svg', url: 'https://orcid.org/0000-0002-7934-6834'};
+var $author$project$Icons$myIcons = _List_fromArray(
+	[$author$project$Icons$linkedIn, $author$project$Icons$gitHub, $author$project$Icons$orcid]);
+var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
+var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
+var $mdgriffith$elm_ui$Element$row = F2(
+	function (attrs, children) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asRow,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+						attrs))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
+var $mdgriffith$elm_ui$Internal$Model$Scale = function (a) {
+	return {$: 'Scale', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
+	function (a, b) {
+		return {$: 'TransformComponent', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$scale = $mdgriffith$elm_ui$Internal$Flag$flag(23);
+var $mdgriffith$elm_ui$Element$scale = function (n) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
+		$mdgriffith$elm_ui$Internal$Flag$scale,
+		$mdgriffith$elm_ui$Internal$Model$Scale(
+			_Utils_Tuple3(n, n, 1)));
+};
+var $mdgriffith$elm_ui$Internal$Model$SpacingStyle = F3(
+	function (a, b, c) {
+		return {$: 'SpacingStyle', a: a, b: b, c: c};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$spacing = $mdgriffith$elm_ui$Internal$Flag$flag(3);
+var $mdgriffith$elm_ui$Internal$Model$spacingName = F2(
+	function (x, y) {
+		return 'spacing-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y)));
+	});
+var $mdgriffith$elm_ui$Element$spacing = function (x) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$spacing,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$SpacingStyle,
+			A2($mdgriffith$elm_ui$Internal$Model$spacingName, x, x),
+			x,
+			x));
+};
+var $author$project$Icons$icons = function (theme) {
+	return A2(
+		$mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$centerX,
+				$mdgriffith$elm_ui$Element$spacing(16),
+				$mdgriffith$elm_ui$Element$scale(0.5)
+			]),
+		A2(
+			$elm$core$List$map,
+			$author$project$Icons$makeIcon(theme),
+			$author$project$Icons$myIcons));
+};
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -11933,190 +12112,6 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
-var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $mdgriffith$elm_ui$Element$image = F2(
-	function (attrs, _v0) {
-		var src = _v0.src;
-		var description = _v0.description;
-		var imageAttributes = A2(
-			$elm$core$List$filter,
-			function (a) {
-				switch (a.$) {
-					case 'Width':
-						return true;
-					case 'Height':
-						return true;
-					default:
-						return false;
-				}
-			},
-			attrs);
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
-				attrs),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[
-						A4(
-						$mdgriffith$elm_ui$Internal$Model$element,
-						$mdgriffith$elm_ui$Internal$Model$asEl,
-						$mdgriffith$elm_ui$Internal$Model$NodeName('img'),
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$mdgriffith$elm_ui$Internal$Model$Attr(
-									$elm$html$Html$Attributes$src(src)),
-									$mdgriffith$elm_ui$Internal$Model$Attr(
-									$elm$html$Html$Attributes$alt(description))
-								]),
-							imageAttributes),
-						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
-					])));
-	});
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
-var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
-var $mdgriffith$elm_ui$Element$link = F2(
-	function (attrs, _v0) {
-		var url = _v0.url;
-		var label = _v0.label;
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$Attr(
-					$elm$html$Html$Attributes$href(url)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Internal$Model$Attr(
-						$elm$html$Html$Attributes$rel('noopener noreferrer')),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-						A2(
-							$elm$core$List$cons,
-							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-							A2(
-								$elm$core$List$cons,
-								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
-								attrs))))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[label])));
-	});
-var $author$project$Main$makeLink = F2(
-	function (theme, link) {
-		var folder = function () {
-			if (theme.$ === 'Light') {
-				return 'images/dark/';
-			} else {
-				return 'images/light/';
-			}
-		}();
-		return A2(
-			$mdgriffith$elm_ui$Element$link,
-			_List_Nil,
-			{
-				label: A2(
-					$mdgriffith$elm_ui$Element$image,
-					_List_Nil,
-					{
-						description: link.description,
-						src: _Utils_ap(folder, link.src)
-					}),
-				url: link.url
-			});
-	});
-var $author$project$Main$gitHub = {description: 'GitHub', src: 'github.svg', url: 'https://github.com/NiekM/'};
-var $author$project$Main$linkedIn = {description: 'LinkedIn', src: 'linkedin.svg', url: 'https://www.linkedin.com/in/niek-mulleners/'};
-var $author$project$Main$orcid = {description: 'ORCID', src: 'orcid.svg', url: 'https://orcid.org/0000-0002-7934-6834'};
-var $author$project$Main$myLinks = _List_fromArray(
-	[$author$project$Main$linkedIn, $author$project$Main$gitHub, $author$project$Main$orcid]);
-var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
-var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
-var $mdgriffith$elm_ui$Element$row = F2(
-	function (attrs, children) {
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asRow,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-						attrs))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
-	});
-var $mdgriffith$elm_ui$Internal$Model$Scale = function (a) {
-	return {$: 'Scale', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
-	function (a, b) {
-		return {$: 'TransformComponent', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$scale = $mdgriffith$elm_ui$Internal$Flag$flag(23);
-var $mdgriffith$elm_ui$Element$scale = function (n) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
-		$mdgriffith$elm_ui$Internal$Flag$scale,
-		$mdgriffith$elm_ui$Internal$Model$Scale(
-			_Utils_Tuple3(n, n, 1)));
-};
-var $mdgriffith$elm_ui$Internal$Model$SpacingStyle = F3(
-	function (a, b, c) {
-		return {$: 'SpacingStyle', a: a, b: b, c: c};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$spacing = $mdgriffith$elm_ui$Internal$Flag$flag(3);
-var $mdgriffith$elm_ui$Internal$Model$spacingName = F2(
-	function (x, y) {
-		return 'spacing-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y)));
-	});
-var $mdgriffith$elm_ui$Element$spacing = function (x) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$spacing,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$SpacingStyle,
-			A2($mdgriffith$elm_ui$Internal$Model$spacingName, x, x),
-			x,
-			x));
-};
-var $author$project$Main$links = function (theme) {
-	return A2(
-		$mdgriffith$elm_ui$Element$row,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$centerX,
-				$mdgriffith$elm_ui$Element$spacing(16),
-				$mdgriffith$elm_ui$Element$scale(0.5)
-			]),
-		A2(
-			$elm$core$List$map,
-			$author$project$Main$makeLink(theme),
-			$author$project$Main$myLinks));
-};
 var $mdgriffith$elm_ui$Internal$Model$MoveX = function (a) {
 	return {$: 'MoveX', a: a};
 };
@@ -12128,22 +12123,15 @@ var $mdgriffith$elm_ui$Element$moveRight = function (x) {
 		$mdgriffith$elm_ui$Internal$Model$MoveX(x));
 };
 var $author$project$Main$myName = 'Niek Mulleners';
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
-var $author$project$Main$hatra_2020 = {description: 'Human Aspects of Types and Reasoning Assistants (HATRA) 2020', star: false, title: 'Model-Driven Synthesis for Program Tutors', url: 'papers/hatra20.pdf'};
-var $author$project$Main$icfp_2024 = {description: 'International Conference on Functional Programming (ICFP) 2024, Distinguished Paper', star: true, title: 'Example-Based Reasoning about the Realizability of Polymorphic Programs', url: 'papers/icfp24.pdf'};
-var $author$project$Main$master_thesis = {description: 'Master Thesis', star: false, title: 'Modular Semantics for Algebraic Effects', url: 'papers/master_thesis.pdf'};
-var $author$project$Main$padl_2023 = {description: 'Practical Aspects of Declarative Languages (PADL) 2023', star: false, title: 'Program Synthesis Using Example Propagation', url: 'papers/padl23.pdf'};
-var $author$project$Main$pepm_2026 = {description: 'International Workshop on Partial Evaluation and Program Manipulation (PEPM) 2026', star: false, title: 'Hole Refinements for Polymorphic Type-and-Example Driven Synthesis', url: 'papers/pepm26.pdf'};
-var $author$project$Main$myArticles = _List_fromArray(
-	[$author$project$Main$pepm_2026, $author$project$Main$icfp_2024, $author$project$Main$padl_2023, $author$project$Main$hatra_2020, $author$project$Main$master_thesis]);
-var $mdgriffith$elm_ui$Element$Font$italic = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.italic);
 var $mdgriffith$elm_ui$Internal$Model$Hover = {$: 'Hover'};
 var $mdgriffith$elm_ui$Internal$Model$PseudoSelector = F2(
 	function (a, b) {
 		return {$: 'PseudoSelector', a: a, b: b};
 	});
 var $mdgriffith$elm_ui$Internal$Flag$hover = $mdgriffith$elm_ui$Internal$Flag$flag(33);
+var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
+	return {$: 'AlignY', a: a};
+};
 var $mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
 	return {$: 'Describe', a: a};
 };
@@ -12152,6 +12140,7 @@ var $mdgriffith$elm_ui$Internal$Model$Nearby = F2(
 		return {$: 'Nearby', a: a, b: b};
 	});
 var $mdgriffith$elm_ui$Internal$Model$NoAttribute = {$: 'NoAttribute'};
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
 var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
 	return {$: 'Text', a: a};
 };
@@ -12283,6 +12272,48 @@ var $mdgriffith$elm_ui$Element$mouseOver = function (decs) {
 			$mdgriffith$elm_ui$Internal$Model$Hover,
 			$mdgriffith$elm_ui$Internal$Model$unwrapDecorations(decs)));
 };
+var $mdgriffith$elm_ui$Element$Font$regular = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.textNormalWeight);
+var $author$project$Route$routeToPath = function (route) {
+	switch (route.$) {
+		case 'Home':
+			return '/home';
+		case 'About':
+			return '/about';
+		case 'Projects':
+			return '/projects';
+		default:
+			return '/dissertation';
+	}
+};
+var $mdgriffith$elm_ui$Element$Font$size = function (i) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontSize,
+		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
+};
+var $mdgriffith$elm_ui$Element$text = function (content) {
+	return $mdgriffith$elm_ui$Internal$Model$Text(content);
+};
+var $author$project$View$navLink = F3(
+	function (current, target, label) {
+		var isCurrent = _Utils_eq(current, target);
+		return A2(
+			$mdgriffith$elm_ui$Element$link,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$Font$size(18),
+					isCurrent ? $mdgriffith$elm_ui$Element$Font$bold : $mdgriffith$elm_ui$Element$Font$regular,
+					$mdgriffith$elm_ui$Element$mouseOver(
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$scale(1.1)
+						]))
+				]),
+			{
+				label: $mdgriffith$elm_ui$Element$text(label),
+				url: $author$project$Route$routeToPath(target)
+			});
+	});
 var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
 	function (a, b, c, d, e) {
 		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
@@ -12301,108 +12332,54 @@ var $mdgriffith$elm_ui$Element$padding = function (x) {
 			f,
 			f));
 };
-var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
-	return {$: 'Px', a: a};
-};
-var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
-var $mdgriffith$elm_ui$Element$Font$size = function (i) {
+var $author$project$View$navBar = function (current) {
 	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontSize,
-		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
+		$mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$spacing(32),
+				$mdgriffith$elm_ui$Element$padding(20),
+				$mdgriffith$elm_ui$Element$centerX
+			]),
+		_List_fromArray(
+			[
+				A3($author$project$View$navLink, current, $author$project$Route$Home, 'Home'),
+				A3($author$project$View$navLink, current, $author$project$Route$Projects, 'Projects'),
+				A3($author$project$View$navLink, current, $author$project$Route$Dissertation, 'Dissertation')
+			]));
 };
-var $mdgriffith$elm_ui$Element$text = function (content) {
-	return $mdgriffith$elm_ui$Internal$Model$Text(content);
-};
-var $author$project$Main$showArticle = F2(
-	function (colors, _v0) {
-		var title = _v0.title;
-		var description = _v0.description;
-		var url = _v0.url;
-		var star = _v0.star;
-		return A2(
-			$mdgriffith$elm_ui$Element$link,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$Background$color(colors.button),
-					$mdgriffith$elm_ui$Element$width(
-					$mdgriffith$elm_ui$Element$px(840)),
-					$mdgriffith$elm_ui$Element$mouseOver(
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$scale(1.03),
-							$mdgriffith$elm_ui$Element$Background$color(colors.highlighted)
-						]))
-				]),
-			{
-				label: A2(
-					$mdgriffith$elm_ui$Element$row,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$spacing(24)
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$mdgriffith$elm_ui$Element$column,
-							_List_fromArray(
-								[
-									$mdgriffith$elm_ui$Element$spacing(8),
-									$mdgriffith$elm_ui$Element$Font$size(16),
-									$mdgriffith$elm_ui$Element$padding(10)
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$mdgriffith$elm_ui$Element$el,
-									_List_fromArray(
-										[
-											$mdgriffith$elm_ui$Element$Font$bold,
-											$mdgriffith$elm_ui$Element$Font$size(20),
-											$mdgriffith$elm_ui$Element$spacing(8)
-										]),
-									$mdgriffith$elm_ui$Element$text(title)),
-									A2(
-									$mdgriffith$elm_ui$Element$el,
-									_List_fromArray(
-										[$mdgriffith$elm_ui$Element$Font$italic]),
-									$mdgriffith$elm_ui$Element$text(description))
-								])),
-							star ? A2(
-							$mdgriffith$elm_ui$Element$el,
-							_List_fromArray(
-								[
-									$mdgriffith$elm_ui$Element$Font$size(32),
-									$mdgriffith$elm_ui$Element$centerY
-								]),
-							$mdgriffith$elm_ui$Element$text('★')) : $mdgriffith$elm_ui$Element$none
-						])),
-				url: url
-			});
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		if (_Utils_eq(x, y)) {
+			var f = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + $elm$core$String$fromInt(x),
+					f,
+					f,
+					f,
+					f));
+		} else {
+			var yFloat = y;
+			var xFloat = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+					yFloat,
+					xFloat,
+					yFloat,
+					xFloat));
+		}
 	});
-var $author$project$Main$research = function (colors) {
-	var header = A2(
-		$mdgriffith$elm_ui$Element$el,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$Font$size(28),
-				$mdgriffith$elm_ui$Element$Font$bold,
-				$mdgriffith$elm_ui$Element$moveRight(10)
-			]),
-		$mdgriffith$elm_ui$Element$text('Research'));
-	var articles = A2(
-		$elm$core$List$map,
-		$author$project$Main$showArticle(colors),
-		$author$project$Main$myArticles);
-	return A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$spacing(16)
-			]),
-		A2($elm$core$List$cons, header, articles));
-};
-var $author$project$Main$Switch = {$: 'Switch'};
+var $author$project$Main$SwitchTheme = {$: 'SwitchTheme'};
+var $mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
+var $mdgriffith$elm_ui$Element$alignRight = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Right);
 var $mdgriffith$elm_ui$Internal$Model$Button = {$: 'Button'};
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
@@ -12547,7 +12524,7 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 				_List_fromArray(
 					[label])));
 	});
-var $author$project$Main$switch = function (theme) {
+var $author$project$Main$switchButton = function (theme) {
 	var symbol = function () {
 		if (theme.$ === 'Light') {
 			return $mdgriffith$elm_ui$Element$text('🌗︎');
@@ -12561,8 +12538,7 @@ var $author$project$Main$switch = function (theme) {
 			[
 				$mdgriffith$elm_ui$Element$Font$size(36),
 				$mdgriffith$elm_ui$Element$Font$bold,
-				$mdgriffith$elm_ui$Element$centerX,
-				$mdgriffith$elm_ui$Element$centerY,
+				$mdgriffith$elm_ui$Element$alignRight,
 				$mdgriffith$elm_ui$Element$mouseOver(
 				_List_fromArray(
 					[
@@ -12571,65 +12547,288 @@ var $author$project$Main$switch = function (theme) {
 			]),
 		{
 			label: symbol,
-			onPress: $elm$core$Maybe$Just($author$project$Main$Switch)
+			onPress: $elm$core$Maybe$Just($author$project$Main$SwitchTheme)
 		});
 };
-var $author$project$Main$body = function (model) {
+var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
+	return {$: 'Px', a: a};
+};
+var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
+var $author$project$Pages$About$view = function (colors) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$spacing(24),
+				$mdgriffith$elm_ui$Element$centerX,
+				A2($mdgriffith$elm_ui$Element$paddingXY, 0, 40)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(36),
+						$mdgriffith$elm_ui$Element$Font$bold,
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				$mdgriffith$elm_ui$Element$text('About')),
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(20),
+						$mdgriffith$elm_ui$Element$centerX,
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$px(600))
+					]),
+				$mdgriffith$elm_ui$Element$text('Replace this with your own about content. Tell visitors who you are and what you do.'))
+			]));
+};
+var $author$project$Pages$Dissertation$view = function (colors) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$spacing(24),
+				$mdgriffith$elm_ui$Element$centerX,
+				A2($mdgriffith$elm_ui$Element$paddingXY, 0, 40)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(36),
+						$mdgriffith$elm_ui$Element$Font$bold,
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				$mdgriffith$elm_ui$Element$text('Dissertation')),
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(20),
+						$mdgriffith$elm_ui$Element$centerX,
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$px(600))
+					]),
+				$mdgriffith$elm_ui$Element$text('Some text here.'))
+			]));
+};
+var $author$project$Pages$Home$view = function (colors) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$spacing(24),
+				$mdgriffith$elm_ui$Element$centerX,
+				A2($mdgriffith$elm_ui$Element$paddingXY, 0, 40)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(36),
+						$mdgriffith$elm_ui$Element$Font$bold,
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				$mdgriffith$elm_ui$Element$text('Welcome')),
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(20),
+						$mdgriffith$elm_ui$Element$centerX,
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$px(600))
+					]),
+				$mdgriffith$elm_ui$Element$text('Some text here.'))
+			]));
+};
+var $author$project$Pages$Projects$hatra_2020 = {description: 'Human Aspects of Types and Reasoning Assistants (HATRA) 2020', star: false, title: 'Model-Driven Synthesis for Program Tutors', url: 'papers/hatra20.pdf'};
+var $author$project$Pages$Projects$icfp_2024 = {description: 'International Conference on Functional Programming (ICFP) 2024, Distinguished Paper', star: true, title: 'Example-Based Reasoning about the Realizability of Polymorphic Programs', url: 'papers/icfp24.pdf'};
+var $author$project$Pages$Projects$master_thesis = {description: 'Master Thesis', star: false, title: 'Modular Semantics for Algebraic Effects', url: 'papers/master_thesis.pdf'};
+var $author$project$Pages$Projects$padl_2023 = {description: 'Practical Aspects of Declarative Languages (PADL) 2023', star: false, title: 'Program Synthesis Using Example Propagation', url: 'papers/padl23.pdf'};
+var $author$project$Pages$Projects$pepm_2026 = {description: 'International Workshop on Partial Evaluation and Program Manipulation (PEPM) 2026', star: false, title: 'Hole Refinements for Polymorphic Type-and-Example Driven Synthesis', url: 'papers/pepm26.pdf'};
+var $author$project$Pages$Projects$myArticles = _List_fromArray(
+	[$author$project$Pages$Projects$pepm_2026, $author$project$Pages$Projects$icfp_2024, $author$project$Pages$Projects$padl_2023, $author$project$Pages$Projects$hatra_2020, $author$project$Pages$Projects$master_thesis]);
+var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
+var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
+var $mdgriffith$elm_ui$Element$Font$italic = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.italic);
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
+var $author$project$Pages$Projects$showArticle = F2(
+	function (colors, _v0) {
+		var title = _v0.title;
+		var description = _v0.description;
+		var url = _v0.url;
+		var star = _v0.star;
+		return A2(
+			$mdgriffith$elm_ui$Element$link,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$Background$color(colors.button),
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$px(840)),
+					$mdgriffith$elm_ui$Element$mouseOver(
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$scale(1.03),
+							$mdgriffith$elm_ui$Element$Background$color(colors.highlighted)
+						]))
+				]),
+			{
+				label: A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$spacing(24)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$column,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$spacing(8),
+									$mdgriffith$elm_ui$Element$Font$size(16),
+									$mdgriffith$elm_ui$Element$padding(10)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$el,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$Font$bold,
+											$mdgriffith$elm_ui$Element$Font$size(20),
+											$mdgriffith$elm_ui$Element$spacing(8)
+										]),
+									$mdgriffith$elm_ui$Element$text(title)),
+									A2(
+									$mdgriffith$elm_ui$Element$el,
+									_List_fromArray(
+										[$mdgriffith$elm_ui$Element$Font$italic]),
+									$mdgriffith$elm_ui$Element$text(description))
+								])),
+							star ? A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Font$size(32),
+									$mdgriffith$elm_ui$Element$centerY
+								]),
+							$mdgriffith$elm_ui$Element$text('★')) : $mdgriffith$elm_ui$Element$none
+						])),
+				url: url
+			});
+	});
+var $author$project$Pages$Projects$view = function (colors) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$spacing(24),
+				$mdgriffith$elm_ui$Element$centerX,
+				A2($mdgriffith$elm_ui$Element$paddingXY, 0, 40)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(36),
+						$mdgriffith$elm_ui$Element$Font$bold,
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				$mdgriffith$elm_ui$Element$text('Projects')),
+				A2(
+				$mdgriffith$elm_ui$Element$column,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$spacing(16),
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				A2(
+					$elm$core$List$map,
+					$author$project$Pages$Projects$showArticle(colors),
+					$author$project$Pages$Projects$myArticles))
+			]));
+};
+var $author$project$Main$view = function (model) {
 	var header = A2(
 		$mdgriffith$elm_ui$Element$el,
 		_List_fromArray(
 			[
+				$mdgriffith$elm_ui$Element$centerX,
 				$mdgriffith$elm_ui$Element$Font$size(36),
-				$mdgriffith$elm_ui$Element$Font$bold
+				$mdgriffith$elm_ui$Element$Font$bold,
+				$mdgriffith$elm_ui$Element$moveRight(16)
 			]),
 		$mdgriffith$elm_ui$Element$text($author$project$Main$myName));
-	var colors = $author$project$Main$colorScheme(model.theme);
-	return A2(
-		$mdgriffith$elm_ui$Element$layout,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$Background$color(colors.background),
-				$mdgriffith$elm_ui$Element$Font$color(colors.text)
-			]),
-		A2(
-			$mdgriffith$elm_ui$Element$column,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$centerX,
-					$mdgriffith$elm_ui$Element$centerY,
-					$mdgriffith$elm_ui$Element$spacing(60)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$mdgriffith$elm_ui$Element$row,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$centerX,
-							$mdgriffith$elm_ui$Element$spacing(220),
-							$mdgriffith$elm_ui$Element$moveRight(128)
-						]),
-					_List_fromArray(
-						[
-							header,
-							$author$project$Main$switch(model.theme)
-						])),
-					function () {
-					var _v0 = model.route;
-					if (_v0.$ === 'Publications') {
-						return $author$project$Main$research(colors);
-					} else {
-						return $mdgriffith$elm_ui$Element$none;
-					}
-				}(),
-					$author$project$Main$links(model.theme)
-				])));
-};
-var $author$project$Main$view = function (model) {
+	var colors = $author$project$View$colorScheme(model.theme);
+	var content = function () {
+		var _v0 = model.route;
+		switch (_v0.$) {
+			case 'Home':
+				return $author$project$Pages$Home$view(colors);
+			case 'About':
+				return $author$project$Pages$About$view(colors);
+			case 'Projects':
+				return $author$project$Pages$Projects$view(colors);
+			default:
+				return $author$project$Pages$Dissertation$view(colors);
+		}
+	}();
 	return {
 		body: _List_fromArray(
 			[
-				$author$project$Main$body(model)
+				A2(
+				$mdgriffith$elm_ui$Element$layout,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Background$color(colors.background),
+						$mdgriffith$elm_ui$Element$Font$color(colors.text)
+					]),
+				A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$centerX,
+							A2($mdgriffith$elm_ui$Element$paddingXY, 0, 20),
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+									A2($mdgriffith$elm_ui$Element$paddingXY, 40, 0)
+								]),
+							_List_fromArray(
+								[
+									header,
+									$author$project$Main$switchButton(model.theme)
+								])),
+							$author$project$View$navBar(model.route),
+							A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$centerX,
+									A2($mdgriffith$elm_ui$Element$paddingXY, 0, 20)
+								]),
+							content),
+							$author$project$Icons$icons(model.theme)
+						])))
 			]),
 		title: $author$project$Main$myName
 	};
@@ -12638,21 +12837,3 @@ var $author$project$Main$main = $elm$browser$Browser$application(
 	{init: $author$project$Main$init, onUrlChange: $author$project$Main$onUrlChange, onUrlRequest: $author$project$Main$onUrlRequest, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
-
-  var app = Elm.Main.init({ node: document.getElementById("elm") });
-}
-catch (e)
-{
-  // display initialization errors (e.g. bad flags, infinite recursion)
-  var header = document.createElement("h1");
-  header.style.fontFamily = "monospace";
-  header.innerText = "Initialization Error";
-  var pre = document.getElementById("elm");
-  document.body.insertBefore(header, pre);
-  pre.innerText = e;
-  throw e;
-}
-</script>
-
-</body>
-</html>
