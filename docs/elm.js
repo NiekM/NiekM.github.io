@@ -12592,17 +12592,70 @@ var $author$project$Pages$About$view = function (colors) {
 				$mdgriffith$elm_ui$Element$text('Replace this with your own about content. Tell visitors who you are and what you do.'))
 			]));
 };
+var $mdgriffith$elm_ui$Internal$Model$Paragraph = {$: 'Paragraph'};
+var $mdgriffith$elm_ui$Element$paragraph = F2(
+	function (attrs, children) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asParagraph,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$Describe($mdgriffith$elm_ui$Internal$Model$Paragraph),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$spacing(5),
+						attrs))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
 var $author$project$Pages$Dissertation$view = function (colors) {
 	return A2(
-		$mdgriffith$elm_ui$Element$link,
-		_List_Nil,
-		{
-			label: A2(
-				$mdgriffith$elm_ui$Element$image,
-				_List_Nil,
-				{description: 'Thesis cover', src: 'images/front.svg'}),
-			url: 'papers/dissertation.pdf'
-		});
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$spacing(24),
+				$mdgriffith$elm_ui$Element$centerX,
+				A2($mdgriffith$elm_ui$Element$paddingXY, 0, 40)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(36),
+						$mdgriffith$elm_ui$Element$Font$bold,
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				$mdgriffith$elm_ui$Element$text('Dissertation')),
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$size(20),
+						$mdgriffith$elm_ui$Element$centerX,
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$px(600))
+					]),
+				A2(
+					$mdgriffith$elm_ui$Element$paragraph,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$text('The PDF of my thesis can be found '),
+							A2(
+							$mdgriffith$elm_ui$Element$link,
+							_List_Nil,
+							{
+								label: $mdgriffith$elm_ui$Element$text('here'),
+								url: 'papers/dissertation.pdf'
+							}),
+							$mdgriffith$elm_ui$Element$text('.')
+						])))
+			]));
 };
 var $author$project$Pages$Home$view = function (colors) {
 	return A2(
